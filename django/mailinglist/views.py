@@ -1,7 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, CreateView, DeleteView, DetailView
 
-from mailinglist.models import MailingList
+from mailinglist.models import MailingList, Subscriber
 from mailinglist.forms  import MailingListForm, SubscriberForm
 from mailinglist.mixins import UserCanUseMailingList
 
@@ -60,10 +60,31 @@ class SubscribeToMailingListView(CreateView):
 class ThankYouForSubscribingView(DetailView):
     model = MailingList
     template_name = 'mailinglist/subscription_thankyou.html'
+
+
+
+class ConfirmSubscriptionView(DetailView):
+    model = Subscriber
+    template_name = 'mailinglist/confirm_subscription.html'
+
+    def get_object(self, queryset=None):
+        subscriber = super().get_object(queryset=queryset)
+        subscriber.confirmed = True
+        subscriber.save()
+        return subscriber
+
+
+class UnsubscribeView(DeleteView):
+    model = Subscriber
+    template_name = 'mailinglist/unsubscribe.html'
+
+    def get_success_url(self):
+        mailing_list = self.object.mailing_list
+        return reverse('mailinglist:subscribe', kwargs={
+            'mailinglist_pk':mailing_list.id
+        })
+
     
-
-
-
 
 
 
