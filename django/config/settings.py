@@ -144,6 +144,43 @@ LOGIN_REDIRECT_URL = 'mailinglist:mailinglist_list'
 LOGOUT_REDIRECT_URL = 'user:login'
 
 
+# Email
+
+EMAIL_HOST = 'smtp.google.com'
+EMAIL_HOST_USER = 'liangsongyou1991'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_PASSWORD')
+
+MAILING_LIST_FORM_EMAIL = 'noreply@example.com'
+MAILING_LIST_LINK_DOMAIN = 'http://localhost:8000'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
