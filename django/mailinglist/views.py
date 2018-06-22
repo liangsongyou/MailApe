@@ -1,9 +1,11 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, CreateView, DeleteView, DetailView
 from django.core.exceptions import PermissionDenied
+from django.shortcuts import get_object_or_404
+from django.urls import reverse_lazy, reverse
 
 from mailinglist.models import MailingList, Subscriber, Message
-from mailinglist.forms  import MailingListForm, SubscriberForm
+from mailinglist.forms  import MailingListForm, SubscriberForm, MessageForm
 from mailinglist.mixins import UserCanUseMailingList
 
 
@@ -23,7 +25,7 @@ class CreateMailingListView(LoginRequiredMixin, CreateView):
         }
 
 
-class DeleteMailingListView(LoginRequiredmixin, UserCanUseMailingList, 
+class DeleteMailingListView(LoginRequiredMixin, UserCanUseMailingList, 
                             DeleteView):
     model = MailingList
     success_url = reverse_lazy('mailinglist:mailinglist_list')
@@ -40,7 +42,7 @@ class SubscribeToMailingListView(CreateView):
 
     def get_initial(self):
         return {
-            'mailing_list':self.kwargs['mailinglist_id']
+            'mailing_list':self.kwargs['mailinglist_pk']
         }
 
     def get_success_url(self):
@@ -50,7 +52,7 @@ class SubscribeToMailingListView(CreateView):
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
-        mailing_list_id = self.kwargs['mailinglist_id']
+        mailing_list_id = self.kwargs['mailinglist_pk']
         ctx['mailing_list'] = get_object_or_404(
             MailingList,
             id=mailing_list_id
@@ -94,7 +96,7 @@ class CreateMessageView(LoginRequiredMixin, CreateView):
     template_name = 'mailinglist/message_form.html'
 
     def get_success_url(self):
-        return reverse('mailinglist:manage_mailinglist'
+        return reverse('mailinglist:manage_mailinglist',
                         kwargs={'pk':self.object.mailing_list.id})
 
     def get_initial(self):
