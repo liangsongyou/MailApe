@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
 ]
 
 CELERY_BROKER_URL = 'redis://localhost:6379/0'
@@ -161,7 +162,21 @@ EMAIL_HOST_PASSWORD = os.getenv('EMAIL_PASSWORD')
 MAILING_LIST_FORM_EMAIL = 'noreply@example.com'
 MAILING_LIST_LINK_DOMAIN = 'http://localhost:8000'
 
+# Rest_framework
 
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_THROTTLE_CLASSES':(
+        'rest_framework.throttling.UserRateThrottle',
+        'rest_framework.throttling.AnonRateThrottle',
+    ),
+    'DEFAULT_THROTTLE_RATES': {
+        'user':'60/minute',
+        'anon':'30/minute',
+    },
+}
 
 
 

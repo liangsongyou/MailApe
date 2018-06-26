@@ -7,3 +7,5 @@ celery<4.2
 celery[redis]
 django-celery-results<2.0
 redis
+factory_boy
+djangorestframework<3.8

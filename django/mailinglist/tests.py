@@ -7,14 +7,11 @@ from mailinglist.factories import SubscriberFactory
 from mailinglist.models import Subscriber, MailingList
 
 
-
-
-
 class MockSendEmailToSubscriberTask:
 
     def setUp(self):
         self.send_confirmation_email_patch = patch(
-            'mailinglist.tasks.send_confirmation_email_patch')
+            'mailinglist.tasks.send_confirmation_email_to_subscriber')
         self.send_confirmation_email_mock = self.send_confirmation_email_patch.start()
         super().setUp()
 
@@ -54,7 +51,7 @@ class SubscriberManagerTestCase(TestCase):
         self.assertEqual(len(confirmed_users), confirmed_users_qs.count())
         for user in confirmed_users_qs:
             self.assertIn(user, confirmed_users)
-    
+
 
 
 
