@@ -37,4 +37,7 @@ urlpatterns = [
     path('message/<uuid:pk>',
          views.MessageDetailView.as_view(),
          name='view_message'),
+    path('api/v1/mailing-list',
+        views.MailingListCreateListView.as_view(),
+        name='api-mailing-list-list'),
 ]
