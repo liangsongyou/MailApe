@@ -9,7 +9,7 @@ class MailingListSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = MailingList
-        fields = ('url', 'id', 'name', 'subscriber_set')
+        fields = ('url', 'id', 'name','owner', 'subscriber_set')
         read_only_fields = ('subscriber_set',)
         extra_kwargs = {
             'url':{'view_name':'mailinglist:api-mailing-list-detail'},
